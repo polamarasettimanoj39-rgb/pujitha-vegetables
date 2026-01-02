@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pujitha Vegetables</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 { color: #2e8b57; }
+    h2 { color: #555; }
+
+    ul { list-style-type: none; padding: 0; }
+    li {
+      background-color: #fff;
+      margin: 10px auto;
+      padding: 10px;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 5px #aaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    input {
+      padding: 8px;
+      width: 150px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+
+    .delBtn { background-color: #ff4d4d; margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Pujitha Vegetables</h1>
+  <p>Fresh vegetables available every day</p>
+
+  <h2>Vegetables & Prices</h2>
+  <ul id="vegList"></ul>
+
+  <!-- Add Vegetable Section -->
+  <h3>Add New Vegetable</h3>
+  <input type="text" id="vegName" placeholder="Vegetable Name">
+  <input type="number" id="vegPrice" placeholder="Price per kg">
+  <button onclick="addVegetable()">Add Vegetable</button>
+
+  <!-- Call and WhatsApp Buttons -->
+  <h2>Place Your Order</h2>
+  <a href="tel:9949867332"><button>Call to Order 📞</button></a>
+  <a href="https://wa.me/9123456789" target="_blank"><button>Order via WhatsApp 📱</button></a>
+
+  <!-- Simple Order Form -->
+  <h3>Or fill this form</h3>
+  <input type="text" id="customerName" placeholder="Your Name"><br>
+  <input type="text" id="orderVeg" placeholder="Vegetables & Quantity"><br>
+  <input type="text" id="customerPhone" placeholder="Your Phone Number"><br>
+  <button onclick="placeOrder()">Submit Order</button>
+
+  <script>
+    const vegList = document.getElementById("vegList");
+
+    // Load vegetables from local storage or use default
+    let vegetables = JSON.parse(localStorage.getItem("vegetables")) || [
+      {name: "Tomato", price: 40},
+      {name: "Potato", price: 30},
+      {name: "Onion", price: 25},
+      {name: "Carrot", price: 50}
+    ];
+
+    // Display vegetables
+    function showVegetables() {
+      vegList.innerHTML = "";
+      vegetables.forEach((veg, index) => {
+        const li = document.createElement("li");
+        li.textContent = ${veg.name} - ₹${veg.price}/kg;
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.className = "delBtn";
+        delBtn.onclick = () => {
+          vegetables.splice(index, 1);
+          saveVegetables();
+          showVegetables();
+        };
+        li.appendChild(delBtn);
+        vegList.appendChild(li);
+      });
+    }
+
+    function saveVegetables() {
+      localStorage.setItem("vegetables", JSON.stringify(vegetables));
+    }
+
+    function addVegetable() {
+      const name = document.getElementById("vegName").value.trim();
+      const price = parseInt(document.getElementById("vegPrice").value);
+      if(name && price > 0){
+        vegetables.push({name, price});
+        saveVegetables();
+        showVegetables();
+        document.getElementById("vegName").value = "";
+        document.getElementById("vegPrice").value = "";
+      } else {
+        alert("Please enter valid name and price!");
+      }
+    }
+
+    // Show initial vegetables
+    showVegetables();
+
+    // Simple order form
+    function placeOrder() {
+      const name = document.getElementById("customerName").value.trim();
+      const veg = document.getElementById("orderVeg").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+
+      if(name && veg && phone){
+        alert(Thank you ${name}! Your order for "${veg}" has been noted. We will call you at ${phone} shortly!);
+        document.getElementById("customerName").value = "";
+        document.getElementById("orderVeg").value = "";
+        document.getElementById("customerPhone").value = "";
+      } else {
+        alert("Please fill all fields!");
+      }
+    }
+  </script>
+
+</body>
+</html> 
