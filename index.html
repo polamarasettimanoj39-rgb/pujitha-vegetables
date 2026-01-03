@@ -1,131 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pujitha Vegetables</title>
-<style>
-body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; }
-h1 { text-align: center; color: #2c3e50; margin-top: 20px; }
-.products { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
-.product { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); width: 150px; text-align: center; transition: transform 0.2s; }
-.product img { width: 100px; height: 100px; object-fit: cover; border-radius: 5px; }
-.product button { background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
-.product button:hover { background: #2ecc71; }
-#whatsappOrder { display: block; margin: 20px auto; background: #25D366; text-align: center; padding: 12px; width: 200px; border-radius: 8px; text-decoration: none; color: white; font-weight: bold; font-size: 16px; }
-#cartSummary { text-align: center; margin-top: 10px; font-weight: bold; color: #2c3e50; }
-.cart-item { background: #fff; margin: 10px auto; padding: 10px; border-radius: 8px; width: 90%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; }
-.cart-item button { background: #e74c3c; margin-left: 5px; }
-@media(max-width:500px){ .products { flex-direction: column; align-items: center; } }
-</style>
+  <title>Pujitha Vegetables</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 { color: #2e8b57; }
+    h2 { color: #555; }
+
+    ul { list-style-type: none; padding: 0; }
+    li {
+      background-color: #fff;
+      margin: 10px auto;
+      padding: 10px;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 5px #aaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    input {
+      padding: 8px;
+      width: 150px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+
+    .delBtn { background-color: #ff4d4d; margin-left: 10px; }
+  </style>
 </head>
 <body>
 
-<h1>Pujitha Vegetables</h1>
+  <h1>Pujitha Vegetables</h1>
+  <p>Fresh vegetables available every day</p>
 
-<div class="products">
-  <div class="product" id="product-tomato">
-    <img src="tomato.jpg" alt="Tomato">
-    <h3>Tomato</h3>
-    <p>₹40 / kg</p>
-    <label>Qty:</label>
-    <input type="number" id="tomatoQty" value="1" min="1" onchange="updateProductPrice('tomato', 40)">
-    <p>Total: ₹<span id="tomatoTotal">40</span></p>
-    <button onclick="addToCart('Tomato', 40, document.getElementById('tomatoQty').value,'product-tomato')">Add to Cart</button>
-  </div>
-  <div class="product" id="product-potato">
-    <img src="potato.jpg" alt="Potato">
-    <h3>Potato</h3>
-    <p>₹30 / kg</p>
-    <label>Qty:</label>
-    <input type="number" id="potatoQty" value="1" min="1" onchange="updateProductPrice('potato', 30)">
-    <p>Total: ₹<span id="potatoTotal">30</span></p>
-    <button onclick="addToCart('Potato', 30, document.getElementById('potatoQty').value,'product-potato')">Add to Cart</button>
-  </div>
-  <div class="product" id="product-onion">
-    <img src="onion.jpg" alt="Onion">
-    <h3>Onion</h3>
-    <p>₹50 / kg</p>
-    <label>Qty:</label>
-    <input type="number" id="onionQty" value="1" min="1" onchange="updateProductPrice('onion', 50)">
-    <p>Total: ₹<span id="onionTotal">50</span></p>
-    <button onclick="addToCart('Onion', 50, document.getElementById('onionQty').value,'product-onion')">Add to Cart</button>
-  </div>
-</div>
+  <h2>Vegetables & Prices</h2>
+  <ul id="vegList"></ul>
 
-<div id="cartSummary">Cart: 0 items | Total: ₹0</div>
-<div id="cartItems"></div>
+  <!-- Add Vegetable Section -->
+  <h3>Add New Vegetable</h3>
+  <input type="text" id="vegName" placeholder="Vegetable Name">
+  <input type="number" id="vegPrice" placeholder="Price per kg">
+  <button onclick="addVegetable()">Add Vegetable</button>
 
-<a id="whatsappOrder" href="#">Place Order on WhatsApp</a>
+  <!-- Call and WhatsApp Buttons -->
+  <h2>Place Your Order</h2>
+  <a href="tel:9949867332"><button>Call to Order 📞</button></a>
+  <a href="https://wa.me/9949867332" target="_blank"><button>Order via WhatsApp 📱</button></a>
 
-<script>
-let cart = [];
+  <!-- Simple Order Form -->
+  <h3>Or fill this form</h3>
+  <input type="text" id="customerName" placeholder="Your Name"><br>
+  <input type="text" id="orderVeg" placeholder="Vegetables & Quantity"><br>
+  <input type="text" id="customerPhone" placeholder="Your Phone Number"><br>
+  <button onclick="placeOrder()">Submit Order</button>
 
-function updateProductPrice(productId, price) {
-    let qty = parseInt(document.getElementById(productId + "Qty").value);
-    if(qty <= 0) qty = 1;
-    document.getElementById(productId + "Total").innerText = qty * price;
-}
+  <script>
+    const vegList = document.getElementById("vegList");
 
-function updateCartSummary() {
-    let totalItems = 0, totalPrice = 0;
-    cart.forEach(item => {
-        totalItems += item.quantity;
-        totalPrice += item.quantity * item.price;
-    });
-    document.getElementById("cartSummary").innerText = Cart: ${totalItems} items | Total: ₹${totalPrice};
+    // Load vegetables from local storage or use default
+    let vegetables = JSON.parse(localStorage.getItem("vegetables")) || [
+      {name: "Tomato", price: 50},
+      {name: "Potato", price: 20},
+      {name: "Onion", price: 30},
+      {name: "Carrot", price: 40}
+    ];
 
-    let cartDiv = document.getElementById("cartItems");
-    cartDiv.innerHTML = '';
-    cart.forEach((item, index) => {
-        let div = document.createElement('div');
-        div.className = "cart-item";
-        div.innerHTML = `
-            ${item.name} - ₹${item.price} x 
-            <input type="number" min="1" value="${item.quantity}" style="width:40px;" onchange="changeQuantity(${index}, this.value)">
-            <button onclick="removeItem(${index})">Remove</button>
-        `;
-        cartDiv.appendChild(div);
-    });
-}
+    // Display vegetables
+    function showVegetables() {
+      vegList.innerHTML = "";
+      vegetables.forEach((veg, index) => {
+        const li = document.createElement("li");
+        li.textContent = ${veg.name} - ₹${veg.price}/kg;
 
-function addToCart(name, price, quantity, productId) {
-    quantity = parseInt(quantity);
-    if(quantity <= 0) { alert("Enter valid quantity"); return; }
-    cart.push({name, price, quantity});
-    alert(quantity + " " + name + "(s) added to cart");
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.className = "delBtn";
+        delBtn.onclick = () => {
+          vegetables.splice(index, 1);
+          saveVegetables();
+          showVegetables();
+        };
+        li.appendChild(delBtn);
+        vegList.appendChild(li);
+      });
+    }
 
-    let productDiv = document.getElementById(productId);
-    productDiv.style.transform = "scale(1.05)";
-    setTimeout(() => { productDiv.style.transform = "scale(1)"; }, 300);
+    function saveVegetables() {
+      localStorage.setItem("vegetables", JSON.stringify(vegetables));
+    }
 
-    updateCartSummary();
-}
+    function addVegetable() {
+      const name = document.getElementById("vegName").value.trim();
+      const price = parseInt(document.getElementById("vegPrice").value);
+      if(name && price > 0){
+        vegetables.push({name, price});
+        saveVegetables();
+        showVegetables();
+        document.getElementById("vegName").value = "";
+        document.getElementById("vegPrice").value = "";
+      } else {
+        alert("Please enter valid name and price!");
+      }
+    }
 
-function changeQuantity(index, value) {
-    value = parseInt(value);
-    if(value <= 0) { removeItem(index); return; }
-    cart[index].quantity = value;
-    updateCartSummary();
-}
+    // Show initial vegetables
+    showVegetables();
 
-function removeItem(index) {
-    cart.splice(index, 1);
-    updateCartSummary();
-}
+    // Simple order form
+    function placeOrder() {
+      const name = document.getElementById("customerName").value.trim();
+      const veg = document.getElementById("orderVeg").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
 
-function sendOrder() {
-    if(cart.length === 0) { alert("Cart is empty!"); return; }
-    let message = "Hello! I want to order:\n";
-    cart.forEach(item => { message += item.name + " - " + item.quantity + "\n"; });
-    let phone = "9949867332"; // Replace with your dad's WhatsApp number
-    let link = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
-    window.open(link, "_blank");
-}
-
-document.getElementById("whatsappOrder").onclick = sendOrder;
-</script>
+      if(name && veg && phone){
+        alert(Thank you ${name}! Your order for "${veg}" has been noted. We will call you at ${phone} shortly!);
+        document.getElementById("customerName").value = "";
+        document.getElementById("orderVeg").value = "";
+        document.getElementById("customerPhone").value = "";
+      } else {
+        alert("Please fill all fields!");
+      }
+    }
+  </script>
 
 </body>
 </html>
-    
