@@ -5,247 +5,255 @@
 body{
 font-family:Arial;
 margin:0;
-background:#f5f5f5;
-text-align:center;
+background:#f6f6f6;
 }
 
 header{
-background:#2e8b57;
-color:white;
-padding:20px;
+background:#ffd500;
+padding:15px;
+text-align:center;
 }
 
-.banner{
-background:url("https://images.unsplash.com/photo-1542838132-92c53300491e");
-background-size:cover;
-color:white;
-padding:60px;
-font-size:22px;
+header h1{
+margin:5px;
 }
 
-.container{
-padding:20px;
+.location{
+font-size:14px;
 }
 
-.veg-grid{
+.search{
+text-align:center;
+padding:10px;
+}
+
+.search input{
+width:250px;
+padding:10px;
+border-radius:20px;
+border:1px solid #ccc;
+}
+
+.categories{
+text-align:center;
+margin:10px;
+}
+
+.categories button{
+background:#eee;
+border:none;
+padding:8px 12px;
+margin:4px;
+border-radius:15px;
+cursor:pointer;
+}
+
+.grid{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:20px;
+gap:15px;
+padding:15px;
 }
 
 .card{
 background:white;
-width:200px;
+width:160px;
 border-radius:10px;
-box-shadow:0 0 10px #ccc;
-padding:15px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+padding:10px;
+text-align:center;
 }
 
 .card img{
 width:100%;
-border-radius:10px;
+height:110px;
+object-fit:cover;
+border-radius:8px;
 }
 
-.card:hover{
-transform:scale(1.05);
-transition:0.3s;
+.price{
+color:#0c831f;
+font-weight:bold;
 }
 
 button{
-padding:8px 15px;
+background:#0c831f;
+color:white;
 border:none;
+padding:6px 10px;
 border-radius:5px;
 cursor:pointer;
-margin:5px;
 }
-
-.cartBtn{background:#ff9900;color:white;}
-.removeBtn{background:#ff4d4d;color:white;}
-.orderBtn{background:#2e8b57;color:white;}
 
 .cart{
 background:white;
-margin:20px auto;
-max-width:400px;
+margin:20px;
 padding:15px;
 border-radius:10px;
-box-shadow:0 0 10px #ccc;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-.admin{
-background:white;
-margin:20px auto;
-max-width:400px;
-padding:15px;
-border-radius:10px;
-box-shadow:0 0 10px #ccc;
+footer{
+background:#ffd500;
+padding:20px;
+text-align:center;
 }
 
-input{
-padding:8px;
-margin:5px;
-border-radius:5px;
-border:1px solid #aaa;
+.instagram img{
+width:20px;
+vertical-align:middle;
 }
 
-</style></head><body><header>
-<h1>🥕 Pujitha Vegetables</h1>
-<p>Fresh Vegetables Delivered Daily</p>
-</header><div class="banner">
-Fresh • Healthy • Affordable
-</div><div class="container"><h2>Our Vegetables</h2>
-<div class="veg-grid" id="vegList"></div><h2>Your Cart 🛒</h2><div class="cart">
-<ul id="cartList"></ul>
-<h3>Total: ₹<span id="totalPrice">0</span></h3>
-<button class="orderBtn" onclick="orderWhatsApp()">Order on WhatsApp</button>
-</div><div class="admin"><h3>Admin Login</h3><input id="adminPass" type="password" placeholder="Enter Admin Password">
-<button onclick="adminLogin()">Login</button><div id="adminPanel" style="display:none"><h3>Add Vegetable</h3><input id="vegName" placeholder="Vegetable Name">
-<input id="vegPrice" type="number" placeholder="Price per kg">
-<input id="vegImg" placeholder="Image URL"><button onclick="addVegetable()">Add Vegetable</button>
+.floatWhats{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:12px 16px;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+}
 
-</div></div></div><script>
+</style></head><body><header><h1>🥕 Pujitha Vegetables</h1><p class="location">
+📍 Kothavalasa Mandal, Mangalapalem Junction
+</p></header><div class="search">
+<input type="text" id="search" placeholder="Search vegetables..." onkeyup="searchVeg()">
+</div><div class="categories">
+<button onclick="filterCat('all')">All</button>
+<button onclick="filterCat('leafy')">Leafy</button>
+<button onclick="filterCat('root')">Root</button>
+<button onclick="filterCat('seasonal')">Seasonal</button>
+</div><div class="grid" id="vegList"></div><div class="cart"><h2>🛒 Cart</h2><ul id="cartList"></ul><h3>Total ₹ <span id="total">0</span></h3><button onclick="orderWhatsApp()">Order via WhatsApp</button>
 
-let vegList=document.getElementById("vegList")
-let cartList=document.getElementById("cartList")
-let totalPrice=document.getElementById("totalPrice")
+<a href="tel:9949867332">
+<button>📞 Call Order</button>
+</a></div><footer><h3>Contact</h3><p>📱 WhatsApp: 9949867332</p>
+<p>📞 Call: 9949867332</p><p class="instagram"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">Instagram: bala__manoj
+
+</p></footer><a class="floatWhats" href="https://wa.me/919949867332" target="_blank">
+WhatsApp Order
+</a><script>
+
+let vegetables=[
+
+{name:"Spinach",price:"",cat:"leafy",img:"https://upload.wikimedia.org/wikipedia/commons/2/21/Spinach.jpg"},
+{name:"Coriander",price:"",cat:"leafy",img:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Coriander_Leaves.jpg"},
+
+{name:"Carrot",price:"",cat:"root",img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg"},
+{name:"Potato",price:"",cat:"root",img:"https://upload.wikimedia.org/wikipedia/commons/6/60/Potato.jpg"},
+{name:"Beetroot",price:"",cat:"root",img:"https://upload.wikimedia.org/wikipedia/commons/2/24/Beetroot.jpg"},
+
+{name:"Tomato",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+{name:"Onion",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Onions.jpg"},
+{name:"Brinjal",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/3/37/Brinjal.jpg"},
+{name:"Cabbage",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/0/03/Cabbage_and_cross_section_on_white.jpg"},
+{name:"Cauliflower",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Cauliflower.jpg"}
+
+]
 
 let cart=[]
 
-let vegetables=JSON.parse(localStorage.getItem("vegetables"))||[
-{name:"Tomato",price:50,img:"https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
-{name:"Potato",price:20,img:"https://upload.wikimedia.org/wikipedia/commons/6/60/Potato.jpg"},
-{name:"Onion",price:30,img:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Onions.jpg"},
-{name:"Carrot",price:40,img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg"}
-]
+function showVegetables(list=vegetables){
 
-function showVegetables(){
+let container=document.getElementById("vegList")
 
-vegList.innerHTML=""
+container.innerHTML=""
 
-vegetables.forEach((veg,index)=>{
+list.forEach(v=>{
 
 let card=document.createElement("div")
+
 card.className="card"
 
-let img=document.createElement("img")
-img.src=veg.img
+card.innerHTML=`
 
-let name=document.createElement("h3")
-name.textContent=veg.name
+<img src="${v.img}">
+<h3>${v.name}</h3>
+<p class="price">₹ ${v.price || "___"} / kg</p>
+<button onclick="addCart('${v.name}')">Add</button>
 
-let price=document.createElement("p")
-price.textContent="₹"+veg.price+" / kg"
+`
 
-let cartBtn=document.createElement("button")
-cartBtn.textContent="Add to Cart"
-cartBtn.className="cartBtn"
-
-cartBtn.onclick=()=>{
-cart.push(veg)
-showCart()
-}
-
-card.appendChild(img)
-card.appendChild(name)
-card.appendChild(price)
-card.appendChild(cartBtn)
-
-vegList.appendChild(card)
+container.appendChild(card)
 
 })
+
+}
+
+function addCart(name){
+
+let item=vegetables.find(v=>v.name==name)
+
+cart.push(item)
+
+showCart()
 
 }
 
 function showCart(){
 
-cartList.innerHTML=""
+let list=document.getElementById("cartList")
+
 let total=0
 
-cart.forEach((item,index)=>{
+list.innerHTML=""
+
+cart.forEach(i=>{
 
 let li=document.createElement("li")
-li.textContent=item.name+" - ₹"+item.price
 
-let removeBtn=document.createElement("button")
-removeBtn.textContent="X"
-removeBtn.className="removeBtn"
+li.textContent=i.name
 
-removeBtn.onclick=()=>{
-cart.splice(index,1)
-showCart()
-}
+list.appendChild(li)
 
-li.appendChild(removeBtn)
-
-cartList.appendChild(li)
-
-total+=item.price
+total+=Number(i.price||0)
 
 })
 
-totalPrice.textContent=total
+document.getElementById("total").textContent=total
 
 }
 
 function orderWhatsApp(){
 
 if(cart.length==0){
-alert("Cart is empty")
+alert("Cart empty")
 return
 }
 
-let message="New Order:%0A"
+let msg="Hello I want to order:%0A"
 
-cart.forEach(item=>{
-message+=item.name+" - ₹"+item.price+"%0A"
+cart.forEach(i=>{
+msg+=i.name+"%0A"
 })
 
-message+="Total: ₹"+totalPrice.textContent
-
-let url="https://wa.me/9949867332?text="+message
-
-window.open(url,"_blank")
+window.open("https://wa.me/919949867332?text="+msg)
 
 }
 
-function addVegetable(){
+function searchVeg(){
 
-let name=document.getElementById("vegName").value
-let price=document.getElementById("vegPrice").value
-let img=document.getElementById("vegImg").value
+let text=document.getElementById("search").value.toLowerCase()
 
-if(name && price && img){
+let filtered=vegetables.filter(v=>v.name.toLowerCase().includes(text))
 
-vegetables.push({name,price,img})
+showVegetables(filtered)
 
-localStorage.setItem("vegetables",JSON.stringify(vegetables))
+}
 
+function filterCat(cat){
+
+if(cat=="all"){
 showVegetables()
-
-}
-else{
-alert("Fill all fields")
+return
 }
 
-}
+let filtered=vegetables.filter(v=>v.cat==cat)
 
-function adminLogin(){
-
-let pass=document.getElementById("adminPass").value
-
-if(pass==="1234"){
-
-document.getElementById("adminPanel").style.display="block"
-
-alert("Admin Login Successful")
-
-}
-else{
-
-alert("Wrong password")
-
-}
+showVegetables(filtered)
 
 }
 
