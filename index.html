@@ -5,156 +5,111 @@
 body{
 font-family:Arial;
 margin:0;
-background:#f6f6f6;
+background:#f3f3f3;
+text-align:center;
 }
 
 header{
-background:#ffd500;
-padding:15px;
-text-align:center;
-}
-
-header h1{
-margin:5px;
-}
-
-.location{
-font-size:14px;
+background:#2e8b57;
+color:white;
+padding:20px;
 }
 
 .search{
-text-align:center;
-padding:10px;
+margin:20px;
 }
 
 .search input{
-width:250px;
 padding:10px;
-border-radius:20px;
-border:1px solid #ccc;
-}
-
-.categories{
-text-align:center;
-margin:10px;
-}
-
-.categories button{
-background:#eee;
-border:none;
-padding:8px 12px;
-margin:4px;
-border-radius:15px;
-cursor:pointer;
+width:250px;
 }
 
 .grid{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:15px;
-padding:15px;
+gap:20px;
+padding:20px;
 }
 
 .card{
 background:white;
-width:160px;
+width:180px;
 border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
+box-shadow:0 0 10px #ccc;
 padding:10px;
-text-align:center;
 }
 
 .card img{
 width:100%;
-height:110px;
+height:120px;
 object-fit:cover;
 border-radius:8px;
 }
 
 .price{
-color:#0c831f;
+color:#2e8b57;
 font-weight:bold;
 }
 
 button{
-background:#0c831f;
+background:#25D366;
 color:white;
 border:none;
-padding:6px 10px;
+padding:8px 12px;
 border-radius:5px;
 cursor:pointer;
 }
 
-.cart{
+.admin{
 background:white;
-margin:20px;
+max-width:400px;
+margin:20px auto;
 padding:15px;
 border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
+box-shadow:0 0 10px #ccc;
 }
 
 footer{
-background:#ffd500;
-padding:20px;
-text-align:center;
-}
-
-.instagram img{
-width:20px;
-vertical-align:middle;
-}
-
-.floatWhats{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
+background:#2e8b57;
 color:white;
-padding:12px 16px;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
+padding:20px;
 }
 
-</style></head><body><header><h1>🥕 Pujitha Vegetables</h1><p class="location">
-📍 Kothavalasa Mandal, Mangalapalem Junction
-</p></header><div class="search">
-<input type="text" id="search" placeholder="Search vegetables..." onkeyup="searchVeg()">
-</div><div class="categories">
-<button onclick="filterCat('all')">All</button>
-<button onclick="filterCat('leafy')">Leafy</button>
-<button onclick="filterCat('root')">Root</button>
-<button onclick="filterCat('seasonal')">Seasonal</button>
-</div><div class="grid" id="vegList"></div><div class="cart"><h2>🛒 Cart</h2><ul id="cartList"></ul><h3>Total ₹ <span id="total">0</span></h3><button onclick="orderWhatsApp()">Order via WhatsApp</button>
+</style></head><body><header><h1>🥕 Pujitha Vegetables</h1>
+<p>Fresh Farm Vegetables</p>
+<p>📍 Kothavalasa Mandal, Mangalapalem Junction</p></header><div class="search">
+<input type="text" id="search" placeholder="Search vegetable..." onkeyup="searchVeg()">
+</div><div class="grid" id="vegList"></div><div class="admin"><h3>Admin Login</h3><input type="password" id="adminPass" placeholder="Password">
+<button onclick="login()">Login</button><div id="adminPanel" style="display:none"><h3>Update Price</h3><input id="vegName" placeholder="Vegetable Name">
+<input id="vegPrice" placeholder="Price"><button onclick="updatePrice()">Update</button>
 
-<a href="tel:9949867332">
-<button>📞 Call Order</button>
-</a></div><footer><h3>Contact</h3><p>📱 WhatsApp: 9949867332</p>
-<p>📞 Call: 9949867332</p><p class="instagram"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">Instagram: bala__manoj
-
-</p></footer><a class="floatWhats" href="https://wa.me/919949867332" target="_blank">
-WhatsApp Order
-</a><script>
+</div></div><footer><h3>📱 Order on WhatsApp</h3><p>9949867332</p></footer><script>
 
 let vegetables=[
 
-{name:"Spinach",price:"",cat:"leafy",img:"https://upload.wikimedia.org/wikipedia/commons/2/21/Spinach.jpg"},
-{name:"Coriander",price:"",cat:"leafy",img:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Coriander_Leaves.jpg"},
-
-{name:"Carrot",price:"",cat:"root",img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg"},
-{name:"Potato",price:"",cat:"root",img:"https://upload.wikimedia.org/wikipedia/commons/6/60/Potato.jpg"},
-{name:"Beetroot",price:"",cat:"root",img:"https://upload.wikimedia.org/wikipedia/commons/2/24/Beetroot.jpg"},
-
-{name:"Tomato",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
-{name:"Onion",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Onions.jpg"},
-{name:"Brinjal",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/3/37/Brinjal.jpg"},
-{name:"Cabbage",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/0/03/Cabbage_and_cross_section_on_white.jpg"},
-{name:"Cauliflower",price:"",cat:"seasonal",img:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Cauliflower.jpg"}
+{name:"Tomato",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+{name:"Potato",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/6/60/Potato.jpg"},
+{name:"Onion",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Onions.jpg"},
+{name:"Carrot",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/7/7e/Carrots.jpg"},
+{name:"Brinjal",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/3/37/Brinjal.jpg"},
+{name:"Cucumber",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/4/43/Cucumber.jpg"},
+{name:"Cabbage",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/0/03/Cabbage_and_cross_section_on_white.jpg"},
+{name:"Cauliflower",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Cauliflower.jpg"},
+{name:"Green Chilli",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/Chili_peppers.jpg"},
+{name:"Spinach",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/2/21/Spinach.jpg"},
+{name:"Bottle Gourd",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/4/4b/Calabash.jpg"},
+{name:"Bitter Gourd",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/7/79/Bitter_melon.jpg"},
+{name:"Ridge Gourd",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/5/59/Luffa_acutangula.jpg"},
+{name:"Pumpkin",price:"",img:"https://upload.wikimedia.org/wikipedia/commons/5/5c/Pumpkin.jpg"}
 
 ]
 
-let cart=[]
+let saved=JSON.parse(localStorage.getItem("vegPrices"))
+
+if(saved){
+vegetables=saved
+}
 
 function showVegetables(list=vegetables){
 
@@ -173,64 +128,14 @@ card.innerHTML=`
 <img src="${v.img}">
 <h3>${v.name}</h3>
 <p class="price">₹ ${v.price || "___"} / kg</p>
-<button onclick="addCart('${v.name}')">Add</button>
+
+<button onclick="order('${v.name}')">Order</button>
 
 `
 
 container.appendChild(card)
 
 })
-
-}
-
-function addCart(name){
-
-let item=vegetables.find(v=>v.name==name)
-
-cart.push(item)
-
-showCart()
-
-}
-
-function showCart(){
-
-let list=document.getElementById("cartList")
-
-let total=0
-
-list.innerHTML=""
-
-cart.forEach(i=>{
-
-let li=document.createElement("li")
-
-li.textContent=i.name
-
-list.appendChild(li)
-
-total+=Number(i.price||0)
-
-})
-
-document.getElementById("total").textContent=total
-
-}
-
-function orderWhatsApp(){
-
-if(cart.length==0){
-alert("Cart empty")
-return
-}
-
-let msg="Hello I want to order:%0A"
-
-cart.forEach(i=>{
-msg+=i.name+"%0A"
-})
-
-window.open("https://wa.me/919949867332?text="+msg)
 
 }
 
@@ -244,16 +149,53 @@ showVegetables(filtered)
 
 }
 
-function filterCat(cat){
+function order(item){
 
-if(cat=="all"){
-showVegetables()
-return
+let message="Hello I want to order "+item
+
+let url="https://wa.me/919949867332?text="+encodeURIComponent(message)
+
+window.open(url,"_blank")
+
 }
 
-let filtered=vegetables.filter(v=>v.cat==cat)
+function login(){
 
-showVegetables(filtered)
+let pass=document.getElementById("adminPass").value
+
+if(pass==="1234"){
+
+document.getElementById("adminPanel").style.display="block"
+
+alert("Admin login successful")
+
+}
+else{
+
+alert("Wrong password")
+
+}
+
+}
+
+function updatePrice(){
+
+let name=document.getElementById("vegName").value
+let price=document.getElementById("vegPrice").value
+
+vegetables.forEach(v=>{
+
+if(v.name.toLowerCase()==name.toLowerCase()){
+
+v.price=price
+
+}
+
+})
+
+localStorage.setItem("vegPrices",JSON.stringify(vegetables))
+
+showVegetables()
 
 }
 
